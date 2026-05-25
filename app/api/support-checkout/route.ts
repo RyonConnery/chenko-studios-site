@@ -37,7 +37,7 @@ export async function POST(req: Request) {
     const stripe = new Stripe(stripeSecretKey);
     const origin = new URL(req.url).origin;
     const session = await stripe.checkout.sessions.create({
-      mode: "payment",
+      mode: "subscription",
       line_items: [
         {
           price: priceId,
