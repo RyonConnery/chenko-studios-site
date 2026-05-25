@@ -35,7 +35,6 @@ export async function POST(req: Request) {
     }
 
     const stripe = new Stripe(stripeSecretKey);
-    const origin = new URL(req.url).origin;
     const session = await stripe.checkout.sessions.create({
       mode: "subscription",
       line_items: [
@@ -44,8 +43,9 @@ export async function POST(req: Request) {
           quantity: 1,
         },
       ],
-      success_url: `${origin}/?support=success#support`,
-      cancel_url: `${origin}/?support=cancelled#support`,
+      success_url:
+        "https://studios.chenkosoftworks.com/support-success?session_id={CHECKOUT_SESSION_ID}",
+      cancel_url: "https://studios.chenkosoftworks.com/support-cancelled",
       allow_promotion_codes: true,
       metadata: {
         source: "chenko-studios-ghostnet-support",
