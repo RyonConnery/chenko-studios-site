@@ -1,10 +1,51 @@
+import Link from "next/link";
+
 export default function Home() {
+  const supportTiers = [
+    {
+      id: "supporter",
+      name: "Supporter",
+      price: "Community support",
+      description:
+        "Help fund the early foundation of GhostNet 3020, including world design, prototypes, concept work, and production tools.",
+      details: [
+        "Development supporter status",
+        "Project update focus",
+        "Helps fund early systems",
+      ],
+    },
+    {
+      id: "founder",
+      name: "Founder",
+      price: "Founder backing",
+      description:
+        "A higher support tier for people who want to help Chenko Studios push GhostNet 3020 through larger development milestones.",
+      details: [
+        "Founder supporter status",
+        "Supports asset and system work",
+        "Helps fund testing preparation",
+      ],
+    },
+    {
+      id: "early-access",
+      name: "Early Access",
+      price: "Future testing interest",
+      description:
+        "For players who want to support development and be considered for future testing waves when GhostNet 3020 reaches playable milestones.",
+      details: [
+        "Future testing interest",
+        "Development feedback path",
+        "Subject to build readiness",
+      ],
+    },
+  ];
+
   return (
     <main className="min-h-screen bg-black text-white">
       <nav className="flex items-center justify-between border-b border-zinc-800 px-8 py-6">
-        <a href="/" className="text-xl font-bold">
+        <Link href="/" className="text-xl font-bold">
           Chenko Studios
-        </a>
+        </Link>
 
         <div className="flex gap-6 text-sm text-zinc-300">
           <a href="#ghostnet" className="hover:text-white">
@@ -115,30 +156,45 @@ export default function Home() {
           </p>
 
           <div className="grid gap-6 md:grid-cols-3">
-            <div className="rounded-2xl border border-zinc-800 p-6">
-              <h3 className="mb-3 text-xl font-bold">Supporter</h3>
-              <p className="text-zinc-400">
-                Follow development and help support the early foundation of
-                GhostNet 3020.
-              </p>
-            </div>
-
-            <div className="rounded-2xl border border-zinc-800 p-6">
-              <h3 className="mb-3 text-xl font-bold">Founder</h3>
-              <p className="text-zinc-400">
-                Help fund assets, systems, worldbuilding, testing, and early
-                development milestones.
-              </p>
-            </div>
-
-            <div className="rounded-2xl border border-zinc-800 p-6">
-              <h3 className="mb-3 text-xl font-bold">Early Access</h3>
-              <p className="text-zinc-400">
-                Future testing access for players who want to provide feedback
-                on early systems, gameplay loops, and world direction.
-              </p>
-            </div>
+            {supportTiers.map((tier) => (
+              <article
+                key={tier.id}
+                className="rounded-2xl border border-zinc-800 p-6 text-left"
+              >
+                <p className="mb-3 text-sm font-semibold uppercase tracking-[0.18em] text-cyan-300">
+                  {tier.price}
+                </p>
+                <h3 className="mb-3 text-xl font-bold">{tier.name}</h3>
+                <p className="leading-7 text-zinc-400">{tier.description}</p>
+                <div className="mt-5 space-y-3">
+                  {tier.details.map((detail) => (
+                    <div
+                      key={detail}
+                      className="rounded-xl border border-zinc-800 bg-zinc-950 p-3 text-sm text-zinc-300"
+                    >
+                      {detail}
+                    </div>
+                  ))}
+                </div>
+                <form action="/api/support-checkout" method="POST" className="mt-6">
+                  <input type="hidden" name="tier" value={tier.id} />
+                  <button
+                    type="submit"
+                    className="w-full rounded-xl bg-white px-5 py-3 font-semibold text-black transition hover:bg-zinc-200"
+                  >
+                    Support GhostNet 3020
+                  </button>
+                </form>
+              </article>
+            ))}
           </div>
+
+          <p className="mt-8 rounded-2xl border border-zinc-800 bg-zinc-950 p-5 text-sm leading-7 text-zinc-400">
+            Support tiers help fund development of GhostNet 3020. They are not
+            investments, equity, ownership, or a guarantee of final release
+            timing. Early Access participation depends on future build
+            readiness, testing needs, and platform availability.
+          </p>
         </div>
       </section>
 
